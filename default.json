@@ -5,7 +5,7 @@
     "atnaUrl": "mongodb://mongodb/openhim"
   },
   "logger": {
-    "level": "info",
+    "level": "debug",
     "logToDB": true,
     "capDBLogs": true,
     "capSize": 10000000

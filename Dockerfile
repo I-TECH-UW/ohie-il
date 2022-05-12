@@ -17,11 +17,18 @@ RUN apt-get -y install curl
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN apt-get -y install nodejs
 RUN apt-get -y install git build-essential
-RUN apt-get -y install software-properties-common python-software-properties openjdk-7-jdk unzip
+RUN apt-get -y install software-properties-common
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update
+RUN apt-get -y install python-software-properties openjdk-8-jdk unzip
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 && \
     echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list && \
     apt-get update && \
-    apt-get install -y mongodb-org-shell
+    apt-get install -y mongodb-org-shell && \
+    apt-get install ca-certificates-java && \
+    update-ca-certificates -f && \
+    /var/lib/dpkg/info/ca-certificates-java.postinst configure
+
 
 
 #install openhim
@@ -33,7 +40,7 @@ COPY default.json /etc/openhim/core.json
 COPY mongo.js /etc/openhim/mongo.js
 COPY dhis-mediator-config.json /etc/openhim/default.json
 COPY openhim-ilr-dhis-mediator.json /etc/openhim/mediator.json
-COPY mediator-xds-1.0.3-jar-with-dependencies.jar /root/mediator-xds-1.0.3-jar-with-dependencies.jar
+COPY mediator-xds-1.0.4-SNAPSHOT-jar-with-dependencies.jar /root/mediator-xds-1.0.4-SNAPSHOT-jar-with-dependencies.jar
 
 #install mediators
 
